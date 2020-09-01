@@ -53,6 +53,11 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $user->update($request->validate([
+            'email' => ['required', 'email'],
+            'name' => ['required', 'max:15']
+        ]));
+
         $user->roles()->sync($request->roles);
 
         return redirect()->route('admin.users.index');
